@@ -35,7 +35,7 @@ html{scrollbar-width:thin;scrollbar-color:#161620 transparent}
 .light .tp-val{background:#FFF;border-color:#E1E3E8;color:#4B5563}
 body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--txt);display:flex;align-items:flex-start;justify-content:center;padding:1rem .875rem;font-size:16px;overflow-x:hidden;overflow-y:auto}
 #app{position:relative;z-index:1;width:100%;max-width:380px;margin:0 auto}
-.phase{display:none}.phase.vis{display:block}
+.phase{display:none;flex-direction:column}.phase.vis{display:flex;min-height:calc(100vh - 80px)}
 .hdr{text-align:center;margin-bottom:20px}
 .hdr-sub{font-size:.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
 .hdr h1{font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#E2E2E8,#8B8B9E);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -70,6 +70,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--t
 .mitem.off{background:#0E0E16;border-color:#1A1A24;opacity:.4}
 .mitem .mn{font-size:.85rem;flex:1;color:#B0B0C0}
 .mitem.off .mn{color:var(--dim);text-decoration:line-through}
+.top-zone{text-align:center;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:8px}
 /* Ready list */
 .rlist{display:flex;flex-direction:column;gap:4px;align-items:stretch}
 .ri{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:grab;transition:transform .15s,opacity .15s;user-select:none}
@@ -143,7 +144,14 @@ function editKey(e,field){if(e.key==="Enter")commitEdit();if(e.key==="Tab"&&fiel
 function blurEdit(){setTimeout(()=>{const ae=document.activeElement;if(ae&&(ae.id==="tp-min"||ae.id==="tp-sec"))return;if(editing)commitEdit();},100);}
 function commitEdit(){const mEl=$("tp-min"),sEl=$("tp-sec");if(!mEl||!sEl){editing=false;rerender();return;}dur=Math.max(MIN,Math.min(MAX,(parseInt(mEl.value)||0)*60+(parseInt(sEl.value)||0)));time=dur;editing=false;rerender();}
 function rerender(){renderReady();}
-function togSkip(i){skip.has(i)?skip.delete(i):skip.add(i);rerender();}
+function togSkip(i){
+  if(skip.has(i)){skip.delete(i);}else{skip.add(i);}
+  const actives=order.filter((_,j)=>!skip.has(j));
+  const skipped=order.filter((_,j)=>skip.has(j));
+  order=[...actives,...skipped];
+  skip=new Set(order.map((_,j)=>j>=actives.length?j:null).filter(j=>j!==null));
+  rerender();
+}
 
 // IDLE — vertical list
 function renderIdle(){
@@ -176,11 +184,10 @@ function keepOrd(){
 let dFrom=null;
 function renderReady(){
   const a=act(),sl=skList();
-  $("p-ready").innerHTML=`${editing?tpEditHTML():tpHTML()}
-    <div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:12px">Drag to reorder · Click ✕ to skip</div>
-    <div class="rlist" id="dragList" style="margin-bottom:10px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
-    ${sl.length?`<div class="rlist" style="margin-bottom:16px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:'<div style="margin-bottom:16px"></div>'}
-    <div class="row"><button class="btn btn-s btn-sm" onclick="doShuf()" ${a.length<2?'disabled style="opacity:.35;cursor:not-allowed"':""}>🎲 Shuffle</button><button class="btn btn-g btn-sm" onclick="go()" ${a.length===0?'disabled style="opacity:.4;cursor:not-allowed"':""}>▶ Start (${a.length})</button></div>`;
+  $("p-ready").innerHTML=`<div class="top-zone">${editing?tpEditHTML():tpHTML()}<div style="font-size:13px;color:var(--sub)">Drag to reorder · Click ✕ to skip</div></div>
+    <div class="rlist" id="dragList" style="margin-bottom:6px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
+    ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:""}
+    <div class="row" style="margin-top:12px"><button class="btn btn-s btn-sm" onclick="doShuf()" ${a.length<2?'disabled style="opacity:.35;cursor:not-allowed"':""}>🎲 Shuffle</button><button class="btn btn-g btn-sm" onclick="go()" ${a.length===0?'disabled style="opacity:.4;cursor:not-allowed"':""}>▶ Start (${a.length})</button></div>`;
   show("ready");
   const list=$("dragList");if(!list)return;
   list.querySelectorAll('.ri').forEach(el=>{
@@ -193,23 +200,32 @@ function updNums(){$("dragList").querySelectorAll('.ri-num').forEach((el,i)=>el.
 function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;renderRun();startClk();}
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){
-  $("p-run").innerHTML=`<div class="obar" id="obar"></div><div class="ccard" id="ccard"></div><div class="td" id="tnum"></div><div class="tu" id="tumsg" style="display:none">Time's up!</div><div class="pb" id="pbw"><div class="pf" id="pf"></div></div>
-    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()" style="width:44px;height:40px;text-align:center;display:inline-flex;align-items:center;justify-content:center">⏸</button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()" style="min-width:95px">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
+  const sl=skList();
+  $("p-run").innerHTML=`<div class="top-zone"><div class="td" id="tnum"></div><div class="tu" id="tumsg" style="display:none">Time's up!</div><div class="pb" id="pbw" style="width:100%"><div class="pf" id="pf"></div></div></div>
+    <div class="rlist" id="runList" style="margin-bottom:6px"></div>
+    ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;opacity:.5;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span></div>`).join("")}</div>`:""}
+    <div class="row" style="gap:6px;margin-top:12px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()" style="width:44px;height:40px;text-align:center;display:inline-flex;align-items:center;justify-content:center">⏸</button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()" style="min-width:95px">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
   show("run");updRun();
 }
 function updRun(){
   const a=act(),cur=a[idx];
-  $("obar").innerHTML=a.map((p,i)=>{const op=i===idx?1:.45;const st=i===idx?`background:var(--pip-bg);border-color:${p.c}44`:"";return`<div class="opip" style="opacity:${op};${st}">${av(p,22)}<span style="font-size:13px;color:${i===idx?"var(--txt)":"var(--sub)"}">${p.n.split(" ")[0]}</span>${i<idx?'<span style="font-size:10px;color:var(--check)">✓</span>':""}</div>`;}).join("");
-  const cc=$("ccard");cc.style.cssText=`text-align:center;margin-bottom:16px;padding:20px 14px;border-radius:12px;background:linear-gradient(135deg,${cur.c}15,${cur.c}08);border:1px solid ${cur.c}44`;
-  cc.innerHTML=`<div class="av" style="width:56px;height:56px;font-size:20px;background:${cur.c};margin:0 auto 10px;box-shadow:0 0 30px ${cur.c}33">${cur.img?`<img src="${cur.img}" alt="">`:cur.i}</div><div style="font-size:18px;font-weight:700;margin-bottom:2px">${cur.n}</div><div style="font-size:12px;color:var(--sub)">${idx+1} / ${a.length}</div>`;
+  $("runList").innerHTML=a.map((p,i)=>{
+    const done=i<idx,active=i===idx;
+    const bg=active?`background:linear-gradient(135deg,${p.c}15,${p.c}08);border-color:${p.c}44`:"";
+    const op=active?1:done?.45:.55;
+    return`<div class="ri" style="cursor:default;opacity:${op};${bg}">
+      <span style="font-size:12px;color:${done?'var(--check)':active?p.c:'var(--dim)'};font-weight:700;width:12px">${done?'✓':active?'►':i+1}</span>
+      ${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span>
+      ${active?`<span style="font-size:12px;color:var(--sub)">${idx+1}/${a.length}</span>`:""}</div>`;
+  }).join("");
+  $("bnxt").textContent=idx===a.length-1?"Finish →":"Next →";
   $("bprev").style.color=idx===0?"var(--dis)":"var(--sub)";$("bprev").style.cursor=idx===0?"not-allowed":"pointer";
-  $("bnxt").textContent=idx===a.length-1?"Finish →":"Next →";updTimer();
+  updTimer();
 }
 function updTimer(){
   const a=act(),cur=a[idx],tn=$("tnum");tn.textContent=fmt(time);let cls="td";if(time===0)cls+=" ot";else if(time<=30)cls+=" wa";if(time>0&&time<=10)cls+=" cp";tn.className=cls;
   $("tumsg").style.display=time===0?"block":"none";
   $("pf").style.width=((dur-time)/dur)*100+"%";$("pf").style.background=time===0?"#EF4444":time<=30?"#F59E0B":cur.c;
-  $("pbw").style.marginTop=time===0?"0":"12px";
   const bp=$("bpause");if(bp){bp.style.color=time===0?"var(--dis)":"var(--sub)";bp.style.cursor=time===0?"not-allowed":"pointer";}
 }
 function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.textContent='▶';b.classList.add('btn-play');}else{b.textContent='⏸';b.classList.remove('btn-play');}}
@@ -218,10 +234,10 @@ function prev(){if(idx>0){clearInterval(tI);idx--;time=dur;paused=false;alerted=
 function resetPause(){const b=$("bpause");if(b){b.textContent='⏸';b.classList.remove('btn-play');}}
 function renderDone(){
   const a=act(),sl=skList();
-  $("p-done").innerHTML=`<div style="font-size:40px;text-align:center;margin-bottom:12px">🎉</div><div style="font-size:18px;font-weight:700;text-align:center;margin-bottom:4px">Stand-up complete!</div><div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:24px">Nice work, team RiRavel</div>
-    <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:24px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${i+1}</span>${av(p,28)}<span style="font-size:14px;flex:1">${p.n}</span><span style="font-size:10px;color:var(--check)">✓</span></div>`).join("")}
-      ${sl.length?`<div style="font-size:10px;color:var(--sub);margin-top:10px;letter-spacing:2px;text-align:center">SKIPPED</div>${sl.map(p=>`<div class="ri" style="cursor:default;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,28,true)}<span style="font-size:14px;flex:1;color:var(--sub)">${p.n}</span></div>`).join("")}`:""}</div>
-    <div class="row"><button class="btn btn-p" onclick="reset()">New Stand-up</button></div>`;
+  $("p-done").innerHTML=`<div class="top-zone"><div style="font-size:36px;margin-bottom:4px">🎉</div><div style="font-size:16px;font-weight:700">Stand-up complete!</div><div style="font-size:12px;color:var(--sub)">Nice work, team RiRavel</div></div>
+    <div class="rlist" style="margin-bottom:6px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--check);font-weight:700;width:12px">✓</span>${av(p,30)}<span style="font-size:14px;flex:1">${p.n}</span></div>`).join("")}</div>
+    ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;opacity:.5;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--sub)">${p.n}</span></div>`).join("")}</div>`:""}
+    <div class="row" style="margin-top:12px"><button class="btn btn-p" onclick="reset()">New Stand-up</button></div>`;
   show("done");
 }
 function reset(){clearInterval(tI);clearInterval(sI);skip=defSkip();idx=0;time=dur;paused=false;alerted=false;editing=false;
