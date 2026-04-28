@@ -3,44 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Standup · RiRavel</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<title>RiRavel Daily · Stand-up</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱</text></svg>">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#08080D;--card:#1A1A28;--border:#2A2A3D;--txt:#E2E2E8;--sub:#585868;--dim:#3A3A4A;--blue:#3A7BE8}
-html{scrollbar-width:thin;scrollbar-color:#2A2A3D transparent}
-::-webkit-scrollbar{width:5px}
+:root{--bg:#08080D;--card:#1A1A28;--border:#2A2A3D;--txt:#E2E2E8;--sub:#585868;--dim:#3A3A4A;--blue:#3A7BE8;--font:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono','Fira Code',monospace}
+html{scrollbar-width:thin;scrollbar-color:#161620 transparent}
+::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#2A2A3D;border-radius:10px}
-::-webkit-scrollbar-thumb:hover{background:#3A3A4D}
-body{min-height:100vh;background:var(--bg);font-family:'JetBrains Mono','Fira Code',monospace;color:var(--txt);display:flex;align-items:flex-start;justify-content:center;padding:16px 14px;overflow-x:hidden;overflow-y:auto}
-#app{position:relative;z-index:1;width:100%;max-width:340px;margin:0 auto}
+::-webkit-scrollbar-thumb{background:#161620;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:#1E1E2E}
+::-webkit-resizer{background:var(--card);border:1px solid var(--border);border-radius:2px}
+body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--txt);display:flex;align-items:flex-start;justify-content:center;padding:1rem .875rem;font-size:16px;overflow-x:hidden;overflow-y:auto}
+#app{position:relative;z-index:1;width:100%;max-width:380px;margin:0 auto}
 .phase{display:none}.phase.vis{display:block}
 .hdr{text-align:center;margin-bottom:20px}
-.hdr-sub{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
-.hdr h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,#E2E2E8,#8B8B9E);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-sub{font-size:.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
+.hdr h1{font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#E2E2E8,#8B8B9E);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .av{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;overflow:hidden}
 .av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.btn{font-family:inherit;cursor:pointer;transition:all .15s;font-weight:600;border:none;border-radius:10px;padding:12px 24px;font-size:13px}
+.btn{font-family:inherit;cursor:pointer;transition:all .15s;font-weight:600;border:none;border-radius:.625rem;padding:.75rem 1.5rem;font-size:.875rem}
 .btn:active{transform:scale(.97)}
 .btn-p{background:linear-gradient(135deg,#3A7BE8,#5B5BF0);color:#fff;box-shadow:0 0 30px rgba(58,123,232,.3)}
 .btn-s{background:var(--card);color:#A0A0B0;border:1px solid var(--border)}
 .btn-g{background:linear-gradient(135deg,#10B981,#059669);color:#fff;box-shadow:0 0 20px rgba(16,185,129,.3)}
-.btn-sm{padding:10px 16px;font-size:12px;border-radius:8px}
-.ghost{background:var(--card);color:var(--sub);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:600}
-.mute{position:absolute;top:4px;right:0;background:none;border:1px solid var(--border);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;font-family:inherit}
+.btn-sm{padding:.625rem 1rem;font-size:.8rem;border-radius:.5rem}
+.ghost{background:var(--card);color:var(--sub);border:1px solid var(--border);border-radius:.5rem;padding:.625rem .875rem;font-size:.8rem;font-family:inherit;cursor:pointer;font-weight:600}
+.mute{position:absolute;top:.25rem;right:0;background:none;border:1px solid var(--border);border-radius:.375rem;padding:.25rem .5rem;cursor:pointer;font-size:.875rem;font-family:inherit}
 .tp{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
 .tp-btn{font-family:inherit;cursor:pointer;font-weight:700;font-size:14px;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:#A0A0B0;display:flex;align-items:center;justify-content:center}
-.tp-val{font-family:inherit;font-weight:600;font-size:16px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:#A0A0B0;padding:3px 12px;cursor:pointer;min-width:65px;text-align:center;letter-spacing:1px}
-.tp-edit{font-family:inherit;font-weight:600;font-size:16px;width:30px;text-align:center;background:var(--card);border:1px solid var(--blue);border-radius:5px;color:var(--blue);padding:3px 2px;outline:none}
-.tp-colon{font-weight:700;font-size:16px;color:var(--blue)}
+.tp-val{font-family:var(--mono);font-weight:600;font-size:16px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:#A0A0B0;padding:3px 12px;cursor:pointer;min-width:65px;text-align:center;letter-spacing:1px}
+.tp-edit{font-family:var(--mono);font-weight:600;font-size:16px;width:30px;text-align:center;background:var(--card);border:1px solid var(--blue);border-radius:5px;color:var(--blue);padding:3px 2px;outline:none}
+.tp-colon{font-weight:700;font-size:16px;color:var(--blue);font-family:var(--mono)}
 /* Idle: vertical member list */
 .mlist{display:flex;flex-direction:column;gap:4px;margin-bottom:20px}
 .mitem{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .2s;user-select:none}
 .mitem.off{background:#0E0E16;border-color:#1A1A24;opacity:.4}
-.mitem .mn{font-size:12px;flex:1;color:#B0B0C0}
+.mitem .mn{font-size:.85rem;flex:1;color:#B0B0C0}
 .mitem.off .mn{color:var(--dim);text-decoration:line-through}
 .mitem .role{font-size:8px;color:#6B6B80;background:#252538;border-radius:3px;padding:1px 4px}
 .mitem.off .role{background:transparent;color:#2A2A3A}
@@ -48,15 +49,15 @@ body{min-height:100vh;background:var(--bg);font-family:'JetBrains Mono','Fira Co
 .rlist{display:flex;flex-direction:column;gap:4px;align-items:stretch}
 .ri{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:grab;transition:transform .15s,opacity .15s;user-select:none}
 .ri.dragging{opacity:.4;transform:scale(.95)}
-.sbtn{font-family:inherit;cursor:pointer;font-weight:600;font-size:11px;padding:3px 8px;border-radius:5px;white-space:nowrap}
+.sbtn{font-family:inherit;cursor:pointer;font-weight:600;font-size:13px;padding:3px 8px;border-radius:5px;white-space:nowrap}
 .sbtn-r{background:#EF444418;border:1px solid #EF444433;color:#EF4444}
 .sbtn-u{background:#10B98118;border:1px solid #10B98133;color:#10B981}
-.sk-item{display:flex;align-items:center;gap:8px;background:#0E0E16;border:1px solid #1A1A24;border-radius:8px;padding:6px 12px;opacity:.5}
+.sk-item{display:flex;align-items:center;gap:8px;background:#0E0E16;border:1px solid #1A1A24;border-radius:8px;padding:6px 12px;opacity:.6}
 /* Running */
 .obar{display:flex;justify-content:center;gap:3px;margin-bottom:16px;flex-wrap:wrap}
 .opip{display:flex;align-items:center;gap:3px;padding:3px 5px;border-radius:5px;border:1px solid transparent}
 .ccard{text-align:center;margin-bottom:16px;padding:18px 14px;border-radius:12px}
-.td{text-align:center;margin-bottom:8px;font-size:48px;font-weight:700;font-variant-numeric:tabular-nums;transition:color .5s}
+.td{text-align:center;margin-bottom:.5rem;font-size:3rem;font-weight:700;font-variant-numeric:tabular-nums;transition:color .5s;font-family:var(--mono)}
 .td.ot{color:#EF4444;text-shadow:0 0 30px rgba(239,68,68,.4)}
 .td.wa{color:#F59E0B}
 .td.cp{animation:countPulse 1s infinite}
@@ -146,9 +147,9 @@ let dFrom=null;
 function renderReady(){
   const a=act(),sl=skList();
   $("p-ready").innerHTML=`${editing?tpEditHTML():tpHTML()}
-    <div style="font-size:11px;color:var(--sub);text-align:center;margin-bottom:12px">Drag to reorder · Click ✕ to skip</div>
-    <div class="rlist" id="dragList" style="margin-bottom:10px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:11px;color:var(--dim);width:6px">⠿</span><span class="ri-num" style="font-size:11px;color:var(--dim);font-weight:700;width:16px">${aI+1}</span>${av(p,26)}<span style="font-size:12px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
-    ${sl.length?`<div class="rlist" style="margin-bottom:16px"><div style="font-size:9px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="sk-item">${av(p,22,true)}<span style="font-size:11px;flex:1;color:var(--dim);text-decoration:line-through;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}${p.role?` <span style="font-size:8px">(${p.role})</span>`:""}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:'<div style="margin-bottom:16px"></div>'}
+    <div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:12px">Drag to reorder · Click ✕ to skip</div>
+    <div class="rlist" id="dragList" style="margin-bottom:10px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:18px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
+    ${sl.length?`<div class="rlist" style="margin-bottom:16px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;opacity:.5;border-color:#1A1A24;background:#0E0E16">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:'<div style="margin-bottom:16px"></div>'}
     <div class="row"><button class="btn btn-s btn-sm" onclick="doShuf()" ${a.length<2?'disabled style="opacity:.35;cursor:not-allowed"':""}>🎲 Shuffle</button><button class="btn btn-g btn-sm" onclick="go()" ${a.length===0?'disabled style="opacity:.4;cursor:not-allowed"':""}>▶ Start (${a.length})</button><button class="ghost" onclick="reset()">Reset</button></div>`;
   show("ready");
   const list=$("dragList");if(!list)return;
@@ -163,14 +164,14 @@ function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){
   $("p-run").innerHTML=`<div class="obar" id="obar"></div><div class="ccard" id="ccard"></div><div class="td" id="tnum"></div><div class="tu" id="tumsg" style="display:none">Time's up!</div><div class="pb" id="pbw"><div class="pf" id="pf"></div></div>
-    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()">⏸</button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
+    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()" style="width:44px;height:40px;text-align:center;display:inline-flex;align-items:center;justify-content:center"><span style="font-size:16px;line-height:1">⏸</span></button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
   show("run");updRun();
 }
 function updRun(){
   const a=act(),cur=a[idx];
-  $("obar").innerHTML=a.map((p,i)=>{const op=i<idx?.3:i===idx?1:.5;const st=i===idx?`background:#1A1A2E;border-color:${p.c}44`:"";return`<div class="opip" style="opacity:${op};${st}">${av(p,18)}<span style="font-size:9px;color:${i===idx?"var(--txt)":"var(--sub)"}">${p.n.split(" ")[0]}</span>${i<idx?'<span style="font-size:8px;color:#10B981">✓</span>':""}</div>`;}).join("");
-  const cc=$("ccard");cc.style.cssText=`text-align:center;margin-bottom:16px;padding:18px 14px;border-radius:12px;background:linear-gradient(135deg,${cur.c}08,${cur.c}04);border:1px solid ${cur.c}22`;
-  cc.innerHTML=`<div class="av" style="width:52px;height:52px;font-size:18px;background:${cur.c};margin:0 auto 10px;box-shadow:0 0 30px ${cur.c}33">${cur.img?`<img src="${cur.img}" alt="">`:cur.i}</div><div style="font-size:16px;font-weight:700;margin-bottom:2px">${cur.n}</div><div style="font-size:10px;color:var(--sub)">${idx+1} / ${a.length}</div>`;
+  $("obar").innerHTML=a.map((p,i)=>{const op=i<idx?.3:i===idx?1:.5;const st=i===idx?`background:#1A1A2E;border-color:${p.c}44`:"";return`<div class="opip" style="opacity:${op};${st}">${av(p,22)}<span style="font-size:13px;color:${i===idx?"var(--txt)":"var(--sub)"}">${p.n.split(" ")[0]}</span>${i<idx?'<span style="font-size:10px;color:#10B981">✓</span>':""}</div>`;}).join("");
+  const cc=$("ccard");cc.style.cssText=`text-align:center;margin-bottom:16px;padding:20px 14px;border-radius:12px;background:linear-gradient(135deg,${cur.c}08,${cur.c}04);border:1px solid ${cur.c}22`;
+  cc.innerHTML=`<div class="av" style="width:56px;height:56px;font-size:20px;background:${cur.c};margin:0 auto 10px;box-shadow:0 0 30px ${cur.c}33">${cur.img?`<img src="${cur.img}" alt="">`:cur.i}</div><div style="font-size:18px;font-weight:700;margin-bottom:2px">${cur.n}</div><div style="font-size:12px;color:var(--sub)">${idx+1} / ${a.length}</div>`;
   $("bprev").style.color=idx===0?"#2A2A3A":"#A0A0B0";$("bprev").style.cursor=idx===0?"not-allowed":"pointer";
   $("bnxt").textContent=idx===a.length-1?"Finish →":"Next →";updTimer();
 }
@@ -181,14 +182,14 @@ function updTimer(){
   $("pbw").style.marginTop=time===0?"0":"12px";
   const bp=$("bpause");if(bp){bp.style.color=time===0?"#2A2A3A":"#A0A0B0";bp.style.cursor=time===0?"not-allowed":"pointer";}
 }
-function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.textContent="▶";b.style.background="#1A2E1A";b.style.color="#10B981";b.style.borderColor="#10B98133";}else{b.textContent="⏸";b.style.background="var(--card)";b.style.color="#A0A0B0";b.style.borderColor="var(--border)";}}
+function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.innerHTML='<span style="font-size:16px;line-height:1">▶</span>';b.style.background="#1A2E1A";b.style.color="#10B981";b.style.borderColor="#10B98133";}else{b.innerHTML='<span style="font-size:16px;line-height:1">⏸</span>';b.style.background="var(--card)";b.style.color="#A0A0B0";b.style.borderColor="var(--border)";}}
 function nxt(){const a=act();if(idx<a.length-1){clearInterval(tI);idx++;time=dur;paused=false;alerted=false;updRun();startClk();}else{clearInterval(tI);renderDone();}}
 function prev(){if(idx>0){clearInterval(tI);idx--;time=dur;paused=false;alerted=false;updRun();startClk();}}
 function renderDone(){
   const a=act(),sl=skList();
-  $("p-done").innerHTML=`<div style="font-size:36px;text-align:center;margin-bottom:10px">🎉</div><div style="font-size:16px;font-weight:700;text-align:center;margin-bottom:4px">Standup complete!</div><div style="font-size:11px;color:var(--sub);text-align:center;margin-bottom:20px">Nice work, team RiRavel</div>
-    <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:20px">${a.map((p,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:4px 10px"><span style="font-size:10px;color:var(--dim);width:14px">${i+1}</span>${av(p,20)}<span style="font-size:11px">${p.n}</span><span style="font-size:9px;color:#10B981">✓</span></div>`).join("")}
-      ${sl.length?`<div style="font-size:9px;color:var(--sub);margin-top:8px;letter-spacing:2px;text-align:center">SKIPPED</div>${sl.map(p=>`<div style="display:flex;align-items:center;gap:8px;padding:3px 10px;opacity:.4"><span style="font-size:10px;color:var(--dim);width:14px">—</span>${av(p,20,true)}<span style="font-size:11px">${p.n}</span></div>`).join("")}`:""}</div>
+  $("p-done").innerHTML=`<div style="font-size:40px;text-align:center;margin-bottom:12px">🎉</div><div style="font-size:18px;font-weight:700;text-align:center;margin-bottom:4px">Standup complete!</div><div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:24px">Nice work, team RiRavel</div>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:24px">${a.map((p,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 10px"><span style="font-size:12px;color:var(--dim);width:16px">${i+1}</span>${av(p,24)}<span style="font-size:14px">${p.n}</span><span style="font-size:10px;color:#10B981">✓</span></div>`).join("")}
+      ${sl.length?`<div style="font-size:10px;color:var(--sub);margin-top:10px;letter-spacing:2px;text-align:center">SKIPPED</div>${sl.map(p=>`<div style="display:flex;align-items:center;gap:8px;padding:4px 10px;opacity:.5"><span style="font-size:12px;color:var(--dim);width:16px">—</span>${av(p,24,true)}<span style="font-size:14px;color:var(--sub)">${p.n}</span></div>`).join("")}`:""}</div>
     <div class="row"><button class="btn btn-p" onclick="reset()">New Standup</button></div>`;
   show("done");
 }
