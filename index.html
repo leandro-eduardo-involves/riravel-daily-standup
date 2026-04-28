@@ -43,8 +43,6 @@ body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--t
 .mitem.off{background:#0E0E16;border-color:#1A1A24;opacity:.4}
 .mitem .mn{font-size:.85rem;flex:1;color:#B0B0C0}
 .mitem.off .mn{color:var(--dim);text-decoration:line-through}
-.mitem .role{font-size:8px;color:#6B6B80;background:#252538;border-radius:3px;padding:1px 4px}
-.mitem.off .role{background:transparent;color:#2A2A3A}
 /* Ready list */
 .rlist{display:flex;flex-direction:column;gap:4px;align-items:stretch}
 .ri{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:grab;transition:transform .15s,opacity .15s;user-select:none}
@@ -81,9 +79,9 @@ body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--t
 <script>
 const T=[
   {n:"Augusto Viganigo",i:"AV",c:"#3A7BE8",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:dc335417-e52e-4fa3-90bc-2c2bb6e750b2/54902099-22a3-44db-b031-22f3bcf9107a/128"},
-  {n:"Bruna Goncalves",i:"BG",c:"#8B5CF6",sd:true,role:"PM",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5eb01aeaf235020b84ecc0b5/360bbc3f-ad2f-49e2-8cd2-72c2fb851cea/128"},
+  {n:"Bruna Goncalves",i:"BG",c:"#8B5CF6",sd:true,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5eb01aeaf235020b84ecc0b5/360bbc3f-ad2f-49e2-8cd2-72c2fb851cea/128"},
   {n:"Crhistopher Lenhard",i:"CL",c:"#10B981",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60c8bd70c90cb20068bf12c9/41094b9a-70d8-4414-865d-7d815f3aa031/128"},
-  {n:"Ivan Fretta",i:"IF",c:"#6366F1",sd:true,role:"Dev Lead",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/611bc5184016870069171c23/1e9fac0b-2c66-4936-a5bf-10ad40d79bff/128"},
+  {n:"Ivan Fretta",i:"IF",c:"#6366F1",sd:true,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/611bc5184016870069171c23/1e9fac0b-2c66-4936-a5bf-10ad40d79bff/128"},
   {n:"Leandro Eduardo",i:"LE",c:"#E85D3A",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:9cd70667-6799-41b5-8fef-7e29d8af3329/22ef0fb6-d322-454a-801d-b08b12c60373/128"},
   {n:"Matheus Soares",i:"MS",c:"#F59E0B",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:3143784c-286c-4812-942c-850bbf958185/26912763-c3e3-40cd-8025-f27283a900dd/128"},
   {n:"Mauricio Vieira de Souza",i:"MV",c:"#06B6D4",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:227f685c-a245-4070-a0e7-f19663e590ad/8d5a8cb0-351b-4edc-89c2-450cf4c3f5d5/128"},
@@ -122,8 +120,8 @@ function renderIdle(){
   $("p-idle").innerHTML=`${editing?tpEditHTML():tpHTML()}
     <div style="font-size:10px;color:var(--dim);margin-bottom:10px;text-align:center">Click to toggle</div>
     <div class="mlist">
-      ${active.map((p,i)=>{const gi=T.indexOf(p);return`<div class="mitem" onclick="togSkip(${gi})">${av(p,26)}<span class="mn">${p.n}</span>${p.role?`<span class="role">${p.role}</span>`:""}</div>`;}).join("")}
-      ${skipped.length?skipped.map(p=>`<div class="mitem off" onclick="togSkip(${p.idx})">${av(p,26,true)}<span class="mn">${p.n}</span>${p.role?`<span class="role">${p.role}</span>`:""}</div>`).join(""):""}
+      ${active.map((p,i)=>{const gi=T.indexOf(p);return`<div class="mitem" onclick="togSkip(${gi})">${av(p,26)}<span class="mn">${p.n}</span></div>`;}).join("")}
+      ${skipped.length?skipped.map(p=>`<div class="mitem off" onclick="togSkip(${p.idx})">${av(p,26,true)}<span class="mn">${p.n}</span></div>`).join(""):""}
     </div>
     <div class="row"><button class="btn btn-p" onclick="doShuf()" ${T.length-skip.size<2?'disabled style="opacity:.35;cursor:not-allowed;box-shadow:none"':""}>🎲 Shuffle</button><button class="btn btn-s" onclick="keepOrd()">Keep order →</button></div>`;
   show("idle");
@@ -164,7 +162,7 @@ function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){
   $("p-run").innerHTML=`<div class="obar" id="obar"></div><div class="ccard" id="ccard"></div><div class="td" id="tnum"></div><div class="tu" id="tumsg" style="display:none">Time's up!</div><div class="pb" id="pbw"><div class="pf" id="pf"></div></div>
-    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()" style="width:44px;height:40px;text-align:center;display:inline-flex;align-items:center;justify-content:center"><span style="font-size:16px;line-height:1">⏸</span></button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
+    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()" style="width:44px;height:40px;text-align:center;display:inline-flex;align-items:center;justify-content:center">⏸</button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
   show("run");updRun();
 }
 function updRun(){
@@ -182,7 +180,7 @@ function updTimer(){
   $("pbw").style.marginTop=time===0?"0":"12px";
   const bp=$("bpause");if(bp){bp.style.color=time===0?"#2A2A3A":"#A0A0B0";bp.style.cursor=time===0?"not-allowed":"pointer";}
 }
-function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.innerHTML='<span style="font-size:16px;line-height:1">▶</span>';b.style.background="#1A2E1A";b.style.color="#10B981";b.style.borderColor="#10B98133";}else{b.innerHTML='<span style="font-size:16px;line-height:1">⏸</span>';b.style.background="var(--card)";b.style.color="#A0A0B0";b.style.borderColor="var(--border)";}}
+function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.textContent='▶';b.style.background="#1A2E1A";b.style.color="#10B981";b.style.borderColor="#10B98133";}else{b.innerHTML='⏸';b.style.background="var(--card)";b.style.color="#A0A0B0";b.style.borderColor="var(--border)";}}
 function nxt(){const a=act();if(idx<a.length-1){clearInterval(tI);idx++;time=dur;paused=false;alerted=false;updRun();startClk();}else{clearInterval(tI);renderDone();}}
 function prev(){if(idx>0){clearInterval(tI);idx--;time=dur;paused=false;alerted=false;updRun();startClk();}}
 function renderDone(){
