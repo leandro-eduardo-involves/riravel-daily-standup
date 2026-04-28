@@ -59,8 +59,7 @@ const T = [
     i: "NC",                // iniciais (fallback sem foto)
     c: "#3A7BE8",           // cor do avatar
     img: "https://...",     // URL da foto (Atlassian avatar)
-    sd: true,               // (opcional) skippado por padrão
-    role: "PM"              // (opcional) cargo exibido quando skippado
+    sd: true                // (opcional) skippado por padrão
   },
   // ...
 ];
