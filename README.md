@@ -1,6 +1,6 @@
 # ⏱ RiRavel Daily Stand-up
 
-Timer de daily standup feito sob medida pro time RiRavel. Roda como painel flutuante por cima do Jira via bookmarklet — sem instalação, sem extensão, sem servidor.
+Timer de daily stand-up feito sob medida pro time RiRavel. Roda como painel flutuante por cima do Jira via bookmarklet — sem instalação, sem extensão, sem servidor.
 
 ## Features
 
@@ -28,12 +28,12 @@ Settings → Pages → Source: **Deploy from a branch** → Branch: **main** →
 
 Acesse: `https://leandro-eduardo-involves.github.io/riravel-daily-standup/setup.html`
 
-Arraste o botão **⏱ Standup** pra barra de favoritos do browser.
+Arraste o botão **⏱ Stand-up** pra barra de favoritos do browser.
 
 ### 4. Use
 
 1. Abra o **Jira** no board do RiRavel
-2. Clique em **⏱ Standup** nos favoritos
+2. Clique em **⏱ Stand-up** nos favoritos
 3. O painel aparece no canto esquerdo
 4. Arraste a barra do topo pra mover
 5. **−** minimiza · **×** fecha · clique de novo = toggle

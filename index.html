@@ -96,7 +96,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--t
 </head>
 <body>
 <div id="app">
-  <div class="hdr"><div class="hdr-sub">RiRavel</div><h1>Daily Standup</h1></div>
+  <div class="hdr"><div class="hdr-sub">RiRavel</div><h1>Daily Stand-up</h1></div>
   <button class="mute" id="muteBtn" onclick="toggleMute()" style="color:var(--sub)">🔊</button>
   <button class="mute" id="themeBtn" onclick="toggleTheme()" style="color:var(--sub);right:auto;left:0">🌙</button>
   <div id="p-idle" class="phase vis"></div>
@@ -218,10 +218,10 @@ function prev(){if(idx>0){clearInterval(tI);idx--;time=dur;paused=false;alerted=
 function resetPause(){const b=$("bpause");if(b){b.textContent='⏸';b.classList.remove('btn-play');}}
 function renderDone(){
   const a=act(),sl=skList();
-  $("p-done").innerHTML=`<div style="font-size:40px;text-align:center;margin-bottom:12px">🎉</div><div style="font-size:18px;font-weight:700;text-align:center;margin-bottom:4px">Standup complete!</div><div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:24px">Nice work, team RiRavel</div>
+  $("p-done").innerHTML=`<div style="font-size:40px;text-align:center;margin-bottom:12px">🎉</div><div style="font-size:18px;font-weight:700;text-align:center;margin-bottom:4px">Stand-up complete!</div><div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:24px">Nice work, team RiRavel</div>
     <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:24px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${i+1}</span>${av(p,28)}<span style="font-size:14px;flex:1">${p.n}</span><span style="font-size:10px;color:var(--check)">✓</span></div>`).join("")}
       ${sl.length?`<div style="font-size:10px;color:var(--sub);margin-top:10px;letter-spacing:2px;text-align:center">SKIPPED</div>${sl.map(p=>`<div class="ri" style="cursor:default;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,28,true)}<span style="font-size:14px;flex:1;color:var(--sub)">${p.n}</span></div>`).join("")}`:""}</div>
-    <div class="row"><button class="btn btn-p" onclick="reset()">New Standup</button></div>`;
+    <div class="row"><button class="btn btn-p" onclick="reset()">New Stand-up</button></div>`;
   show("done");
 }
 function reset(){clearInterval(tI);clearInterval(sI);skip=defSkip();idx=0;time=dur;paused=false;alerted=false;editing=false;
