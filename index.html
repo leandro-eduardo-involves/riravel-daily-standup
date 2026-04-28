@@ -77,6 +77,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--txt);padding:0;fon
 .ri.dragging{opacity:.4;transform:scale(.95)}
 .sbtn{font-family:inherit;cursor:pointer;font-weight:600;font-size:11px;padding:2px 0;border-radius:4px;white-space:nowrap;width:22px;text-align:center;transition:opacity .15s}
 .sbtn:hover{opacity:.7}
+.name-link{cursor:pointer;transition:opacity .15s}.name-link:hover{opacity:.7}
 .sbtn-r{background:#EF444418;border:1px solid #EF444433;color:#EF4444}
 .sbtn-u{background:#10B98118;border:1px solid #10B98133;color:var(--check)}
 .sk-item{display:flex;align-items:center;gap:8px;background:#0E0E16;border:1px solid #1A1A24;border-radius:8px;padding:6px 12px;opacity:.6}
@@ -108,15 +109,16 @@ body{background:var(--bg);font-family:var(--font);color:var(--txt);padding:0;fon
 </div>
 <script>
 const T=[
-  {n:"Augusto Viganigo",i:"AV",c:"#3A7BE8",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:dc335417-e52e-4fa3-90bc-2c2bb6e750b2/54902099-22a3-44db-b031-22f3bcf9107a/128"},
-  {n:"Bruna Goncalves",i:"BG",c:"#8B5CF6",sd:true,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5eb01aeaf235020b84ecc0b5/360bbc3f-ad2f-49e2-8cd2-72c2fb851cea/128"},
-  {n:"Crhistopher Lenhard",i:"CL",c:"#10B981",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60c8bd70c90cb20068bf12c9/41094b9a-70d8-4414-865d-7d815f3aa031/128"},
-  {n:"Ivan Fretta",i:"IF",c:"#6366F1",sd:true,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/611bc5184016870069171c23/1e9fac0b-2c66-4936-a5bf-10ad40d79bff/128"},
-  {n:"Leandro Eduardo",i:"LE",c:"#E85D3A",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:9cd70667-6799-41b5-8fef-7e29d8af3329/22ef0fb6-d322-454a-801d-b08b12c60373/128"},
-  {n:"Matheus Soares",i:"MS",c:"#F59E0B",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:3143784c-286c-4812-942c-850bbf958185/26912763-c3e3-40cd-8025-f27283a900dd/128"},
-  {n:"Mauricio Vieira de Souza",i:"MV",c:"#06B6D4",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:227f685c-a245-4070-a0e7-f19663e590ad/8d5a8cb0-351b-4edc-89c2-450cf4c3f5d5/128"},
-  {n:"Patrick Kochan",i:"PK",c:"#EC4899",img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:d527ceb6-1b67-49a6-b764-8fbe9f656346/b92cd4db-c8a7-4cc8-b736-2491f64b9d25/128"},
+  {n:"Augusto Viganigo",i:"AV",c:"#3A7BE8",qf:1220,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:dc335417-e52e-4fa3-90bc-2c2bb6e750b2/54902099-22a3-44db-b031-22f3bcf9107a/128"},
+  {n:"Bruna Goncalves",i:"BG",c:"#8B5CF6",sd:true,qf:1221,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5eb01aeaf235020b84ecc0b5/360bbc3f-ad2f-49e2-8cd2-72c2fb851cea/128"},
+  {n:"Crhistopher Lenhard",i:"CL",c:"#10B981",qf:1222,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60c8bd70c90cb20068bf12c9/41094b9a-70d8-4414-865d-7d815f3aa031/128"},
+  {n:"Ivan Fretta",i:"IF",c:"#6366F1",sd:true,qf:1258,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/611bc5184016870069171c23/1e9fac0b-2c66-4936-a5bf-10ad40d79bff/128"},
+  {n:"Leandro Eduardo",i:"LE",c:"#E85D3A",qf:1219,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:9cd70667-6799-41b5-8fef-7e29d8af3329/22ef0fb6-d322-454a-801d-b08b12c60373/128"},
+  {n:"Matheus Soares",i:"MS",c:"#F59E0B",qf:1218,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:3143784c-286c-4812-942c-850bbf958185/26912763-c3e3-40cd-8025-f27283a900dd/128"},
+  {n:"Mauricio Vieira de Souza",i:"MV",c:"#06B6D4",qf:1224,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/70121:227f685c-a245-4070-a0e7-f19663e590ad/8d5a8cb0-351b-4edc-89c2-450cf4c3f5d5/128"},
+  {n:"Patrick Kochan",i:"PK",c:"#EC4899",qf:1223,img:"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:d527ceb6-1b67-49a6-b764-8fbe9f656346/b92cd4db-c8a7-4cc8-b736-2491f64b9d25/128"},
 ];
+const BOARD_URL="https://involves.atlassian.net/jira/software/c/projects/RIR/boards/413";
 const MIN=30,MAX=600,STEP=30;
 let dur=120,order=[...T],skip=defSkip(),idx=0,time=120,paused=false,alerted=false,muted=false,editing=false,tI=null,sI=null;
 const $=id=>document.getElementById(id);
@@ -131,6 +133,7 @@ function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAu
 function playTick(){if(muted)return;try{const c=getCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type="sine";o.frequency.value=600;g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.08);o.start(c.currentTime);o.stop(c.currentTime+.08);}catch(e){}}
 function playAlert(){if(muted)return;try{const c=getCtx(),t=c.currentTime;const b=(s,f,d,v)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.start(s);o.stop(s+d);};b(t,660,.12,.15);b(t+.18,660,.12,.15);b(t+.36,880,.25,.18);}catch(e){}}
 function toggleMute(){muted=!muted;$("muteBtn").textContent=muted?"🔇":"🔊";$("muteBtn").style.color=muted?"#EF4444":"var(--sub)";}
+function goFilter(qf){try{window.parent.postMessage({standupFilter:BOARD_URL+"?quickFilter="+qf},"*");}catch(e){}}
 function toggleTheme(){document.documentElement.classList.toggle("light");document.body.classList.toggle("light");const isLight=document.body.classList.contains("light");$("themeBtn").textContent=isLight?"☀️":"🌙";try{localStorage.setItem("standup-theme",isLight?"light":"dark");}catch(e){}try{window.parent.postMessage({standupTheme:isLight?"light":"dark"},"*");}catch(e){}}
 function loadTheme(){try{const t=localStorage.getItem("standup-theme");if(t==="light"){document.documentElement.classList.add("light");document.body.classList.add("light");$("themeBtn").textContent="☀️";}try{window.parent.postMessage({standupTheme:t||"dark"},"*");}catch(e){}}catch(e){}}
 loadTheme();
@@ -185,7 +188,7 @@ let dFrom=null;
 function renderReady(){
   const a=act(),sl=skList();
   $("p-ready").innerHTML=`<div class="top-zone">${editing?tpEditHTML():tpHTML()}<div style="font-size:13px;color:var(--sub)">Drag to reorder · Click ✕ to skip</div></div>
-    <div class="rlist" id="dragList" style="margin-bottom:6px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow-x:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
+    <div class="rlist" id="dragList" style="margin-bottom:6px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span class="name-link" onclick="goFilter(${p.qf})" style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
     ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--dim);overflow-x:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:""}
     <div class="row" style="margin-top:12px"><button class="btn btn-s btn-sm" onclick="doShuf()" ${a.length<2?'disabled style="opacity:.35;cursor:not-allowed"':""}>🎲 Shuffle</button><button class="btn btn-g btn-sm" onclick="go()" ${a.length===0?'disabled style="opacity:.4;cursor:not-allowed"':""}>▶ Start (${a.length})</button></div>`;
   show("ready");
@@ -235,7 +238,7 @@ function resetPause(){const b=$("bpause");if(b){b.textContent='⏸';b.classList.
 function renderDone(){
   const a=act(),sl=skList();
   $("p-done").innerHTML=`<div class="top-zone"><div style="font-size:36px;margin-bottom:4px">🎉</div><div style="font-size:16px;font-weight:700">Stand-up complete!</div><div style="font-size:12px;color:var(--sub)">Nice work, team RiRavel</div></div>
-    <div class="rlist" style="margin-bottom:6px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--check);font-weight:700;width:12px">✓</span>${av(p,30)}<span style="font-size:14px;flex:1">${p.n}</span></div>`).join("")}</div>
+    <div class="rlist" style="margin-bottom:6px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--check);font-weight:700;width:12px">✓</span>${av(p,30)}<span class="name-link" onclick="goFilter(${p.qf})" style="font-size:14px;flex:1">${p.n}</span></div>`).join("")}</div>
     ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;opacity:.5;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--sub)">${p.n}</span></div>`).join("")}</div>`:""}
     <div class="row" style="margin-top:12px"><button class="btn btn-p" onclick="reset()">New Stand-up</button></div>`;
   show("done");
