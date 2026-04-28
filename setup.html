@@ -7,93 +7,63 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-width:thin;scrollbar-color:#2A2A3D transparent}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#2A2A3D;border-radius:10px}
 body{min-height:100vh;background:#08080D;font-family:'JetBrains Mono','Fira Code',monospace;color:#E2E2E8;display:flex;align-items:center;justify-content:center;padding:40px 24px}
-.wrap{max-width:600px;width:100%}
-h1{font-size:24px;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,#E2E2E8,#8B8B9E);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sub{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#585868;margin-bottom:32px}
-.step{margin-bottom:32px}
-.step-num{font-size:11px;color:#3A7BE8;font-weight:700;letter-spacing:2px;margin-bottom:8px}
-.step-title{font-size:16px;font-weight:600;margin-bottom:8px}
-.step-desc{font-size:13px;color:#8B8B9E;line-height:1.6}
-.step-desc code{background:#1A1A28;border:1px solid #2A2A3D;border-radius:4px;padding:2px 6px;font-size:12px;color:#A0A0B0}
-.url-input{width:100%;font-family:inherit;font-size:13px;background:#1A1A28;border:1px solid #2A2A3D;border-radius:8px;color:#A0A0B0;padding:10px 14px;outline:none;margin:12px 0}
+.wrap{max-width:560px;width:100%}
+h1{font-size:22px;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,#E2E2E8,#8B8B9E);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#585868;margin-bottom:32px}
+.step{margin-bottom:28px}
+.sn{font-size:10px;color:#3A7BE8;font-weight:700;letter-spacing:2px;margin-bottom:6px}
+.st{font-size:15px;font-weight:600;margin-bottom:6px}
+.sd{font-size:12px;color:#8B8B9E;line-height:1.7}
+.sd code{background:#1A1A28;border:1px solid #2A2A3D;border-radius:3px;padding:1px 5px;font-size:11px;color:#A0A0B0}
+.url-input{width:100%;font-family:inherit;font-size:12px;background:#1A1A28;border:1px solid #2A2A3D;border-radius:7px;color:#A0A0B0;padding:9px 12px;outline:none;margin:10px 0}
 .url-input:focus{border-color:#3A7BE8;color:#3A7BE8}
-.bm-link{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#3A7BE8,#5B5BF0);color:#fff;padding:14px 28px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;cursor:grab;box-shadow:0 0 30px rgba(58,123,232,.3);transition:all .15s;font-family:inherit;margin:12px 0}
-.bm-link:hover{transform:scale(1.03);box-shadow:0 0 50px rgba(58,123,232,.5)}
-.hint{font-size:11px;color:#585868;margin-top:8px}
-.preview{margin-top:24px;background:#1A1A28;border:1px solid #2A2A3D;border-radius:12px;padding:16px;font-size:12px;color:#6B6B80;line-height:1.8;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:200px;overflow-y:auto}
-.divider{border:none;border-top:1px solid #1A1A24;margin:32px 0}
+.bm-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#3A7BE8,#5B5BF0);color:#fff;padding:12px 24px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;cursor:grab;box-shadow:0 0 30px rgba(58,123,232,.3);transition:all .15s;font-family:inherit;margin:10px 0}
+.bm-link:hover{box-shadow:0 0 50px rgba(58,123,232,.5)}
+.hint{font-size:10px;color:#585868;margin-top:6px}
+.preview{margin-top:16px;background:#1A1A28;border:1px solid #2A2A3D;border-radius:8px;padding:12px;font-size:10px;color:#6B6B80;line-height:1.8;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto}
+hr{border:none;border-top:1px solid #1A1A24;margin:28px 0}
+.feat{font-size:12px;color:#6B6B80;line-height:1.8}
+.feat b{color:#A0A0B0}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="sub">RiRavel</div>
   <h1>Standup Timer Setup</h1>
-  <p style="font-size:13px;color:#585868;margin-bottom:40px;line-height:1.6">Install the bookmarklet to open the timer as a floating panel on top of Jira.</p>
-
-  <div class="step">
-    <div class="step-num">STEP 1</div>
-    <div class="step-title">Deploy the timer</div>
-    <div class="step-desc">Upload <code>index.html</code> to a GitHub repo and enable Pages. Or host anywhere — you just need a URL.</div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">STEP 2</div>
-    <div class="step-title">Set your URL</div>
-    <div class="step-desc">Paste the URL where your timer is hosted:</div>
-    <input class="url-input" id="urlInput" type="text" placeholder="https://your-user.github.io/riravel-standup/" value="https://your-user.github.io/riravel-standup/" oninput="updateBookmarklet()">
-  </div>
-
-  <div class="step">
-    <div class="step-num">STEP 3</div>
-    <div class="step-title">Drag to your bookmarks bar</div>
-    <div class="step-desc">Drag this button to your browser's bookmarks bar:</div>
+  <p style="font-size:12px;color:#585868;margin-bottom:36px;line-height:1.6">Bookmarklet que abre o timer como painel flutuante por cima do Jira.</p>
+  <div class="step"><div class="sn">STEP 1</div><div class="st">Deploy no GitHub Pages</div>
+    <div class="sd">Crie um repo (ex: <code>riravel-standup</code>), suba <code>index.html</code> e <code>setup.html</code>. Ative Pages em Settings → Pages → Source: main.<br>URL fica tipo: <code>https://seu-user.github.io/riravel-standup/</code></div></div>
+  <div class="step"><div class="sn">STEP 2</div><div class="st">Cole a URL do timer</div>
+    <div class="sd">Depois de deployar, cole aqui a URL do <code>index.html</code>:</div>
+    <input class="url-input" id="urlInput" type="text" placeholder="https://seu-user.github.io/riravel-standup/" value="https://seu-user.github.io/riravel-standup/" oninput="updateBm()"></div>
+  <div class="step"><div class="sn">STEP 3</div><div class="st">Arraste pro bookmarks bar</div>
+    <div class="sd">Arraste o botão abaixo pra barra de favoritos do browser:</div>
     <a class="bm-link" id="bmLink" href="#">⏱ Standup</a>
-    <div class="hint">If your bookmarks bar is hidden: Ctrl+Shift+B (Chrome) or Cmd+Shift+B (Mac)</div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">STEP 4</div>
-    <div class="step-title">Use it!</div>
-    <div class="step-desc">Open Jira, click the bookmarklet. A floating panel appears with the timer. Drag it anywhere, minimize it, or close it. Click the bookmarklet again to toggle visibility.</div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="step">
-    <div class="step-num">FEATURES</div>
-    <div class="step-title">Floating panel</div>
-    <div class="step-desc">
-      ✦ Draggable — grab the header bar to move it<br>
-      ✦ Minimize — click <code>−</code> to collapse, <code>+</code> to expand<br>
-      ✦ Close — click <code>×</code> to remove<br>
-      ✦ Toggle — click bookmarklet again to show/hide<br>
-      ✦ Stays on top of Jira — no tab switching
-    </div>
-  </div>
-
-  <hr class="divider">
-
-  <div class="step">
-    <div class="step-num">BOOKMARKLET CODE</div>
-    <div class="step-desc">For reference, this is the code the bookmarklet runs:</div>
-    <div class="preview" id="codePreview"></div>
-  </div>
+    <div class="hint">Bookmarks bar escondida? Ctrl+Shift+B (Chrome) ou Cmd+Shift+B (Mac)</div></div>
+  <div class="step"><div class="sn">STEP 4</div><div class="st">Use!</div>
+    <div class="sd">Abra o Jira, clique no bookmarklet. O timer aparece no canto esquerdo, sobre a sidebar. Arraste, minimize ou feche. Clique de novo pra show/hide.</div></div>
+  <hr>
+  <div class="step"><div class="sn">PAINEL FLUTUANTE</div>
+    <div class="feat"><b>Draggable</b> — arraste pela barra do topo<br><b>Minimize</b> — clique <code>−</code> pra colapsar<br><b>Resize</b> — puxe a borda lateral pra ajustar largura<br><b>Close</b> — clique <code>×</code><br><b>Toggle</b> — clique no bookmarklet de novo<br><b>Always on top</b> — fica sobre o Jira</div></div>
+  <hr>
+  <div class="step"><div class="sn">COMPARTILHAR COM O TIME</div>
+    <div class="sd">Mande a URL desta página pro time:<br><code>https://seu-user.github.io/riravel-standup/setup.html</code><br>Cada um arrasta o bookmarklet pro browser e pronto.</div></div>
+  <hr>
+  <div class="step"><div class="sn">CÓDIGO DO BOOKMARKLET</div><div class="preview" id="codePreview"></div></div>
 </div>
-
 <script>
-function getBookmarkletCode(url) {
-  return `javascript:void(function(){if(document.getElementById('sf-r')){var e=document.getElementById('sf-r');e.style.display=e.style.display==='none'?'':'none';return;}var r=document.createElement('div');r.id='sf-r';r.style.cssText='position:fixed;bottom:20px;right:20px;width:380px;height:560px;z-index:999999;border-radius:12px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.7);border:1px solid #2A2A3D;display:flex;flex-direction:column;resize:both;';var b=document.createElement('div');b.id='sf-b';b.style.cssText='background:#14141F;padding:8px 12px;display:flex;align-items:center;cursor:move;user-select:none;border-bottom:1px solid #2A2A3D;flex-shrink:0;';b.innerHTML='<span style=\"color:#8B8B9E;font-size:11px;font-weight:600;flex:1;letter-spacing:2px;font-family:monospace\">⏱ STANDUP</span><button id=sf-mn style=\"background:none;border:none;color:#585868;font-size:18px;cursor:pointer;padding:0 6px;font-family:monospace\">−</button><button id=sf-cl style=\"background:none;border:none;color:#585868;font-size:18px;cursor:pointer;padding:0 6px;font-family:monospace\">×</button>';var f=document.createElement('iframe');f.id='sf-f';f.src='${url}';f.style.cssText='flex:1;border:none;background:#08080D;width:100%;';r.appendChild(b);r.appendChild(f);document.body.appendChild(r);var mn=false;document.getElementById('sf-mn').onclick=function(){mn=!mn;f.style.display=mn?'none':'';r.style.height=mn?'auto':'560px';r.style.resize=mn?'none':'both';this.textContent=mn?'+':'−';};document.getElementById('sf-cl').onclick=function(){r.remove();};var ox,oy,dr=false;b.onmousedown=function(e){if(e.target.tagName==='BUTTON')return;dr=true;var rc=r.getBoundingClientRect();ox=e.clientX-rc.left;oy=e.clientY-rc.top;r.style.right='auto';r.style.bottom='auto';r.style.left=rc.left+'px';r.style.top=rc.top+'px';};document.addEventListener('mousemove',function(e){if(!dr)return;r.style.left=Math.max(0,e.clientX-ox)+'px';r.style.top=Math.max(0,e.clientY-oy)+'px';});document.addEventListener('mouseup',function(){dr=false;});}())`;
+function getBm(url){
+  return "javascript:void(function(){if(document.getElementById('sf-r')){var e=document.getElementById('sf-r');e.style.display=e.style.display==='none'?'':'none';return;}var r=document.createElement('div');r.id='sf-r';r.style.cssText='position:fixed;top:8px;left:8px;width:340px;height:calc(100vh - 16px);z-index:999999;border-radius:10px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,.7);border:1px solid #2A2A3D;display:flex;flex-direction:column;resize:horizontal;min-width:280px;max-width:500px;';var b=document.createElement('div');b.style.cssText='background:#14141F;padding:6px 10px;display:flex;align-items:center;cursor:move;user-select:none;border-bottom:1px solid #2A2A3D;flex-shrink:0;';b.innerHTML='<span style=\"color:#8B8B9E;font-size:10px;font-weight:600;flex:1;letter-spacing:2px;font-family:monospace\">\\u23f1 STANDUP</span><button id=sf-mn style=\"background:none;border:none;color:#585868;font-size:16px;cursor:pointer;padding:0 5px;font-family:monospace\">\\u2212</button><button id=sf-cl style=\"background:none;border:none;color:#585868;font-size:16px;cursor:pointer;padding:0 5px;font-family:monospace\">\\u00d7</button>';var f=document.createElement('iframe');f.id='sf-f';f.src='"+url+"';f.style.cssText='flex:1;border:none;background:#08080D;width:100%;';f.setAttribute('allow','autoplay');r.appendChild(b);r.appendChild(f);document.body.appendChild(r);var mn=false;document.getElementById('sf-mn').onclick=function(){mn=!mn;f.style.display=mn?'none':'';r.style.height=mn?'auto':'calc(100vh - 16px)';r.style.resize=mn?'none':'horizontal';this.textContent=mn?'+':'\\u2212';};document.getElementById('sf-cl').onclick=function(){r.remove();};var ox,oy,dr=false;b.onmousedown=function(e){if(e.target.tagName==='BUTTON')return;dr=true;var rc=r.getBoundingClientRect();ox=e.clientX-rc.left;oy=e.clientY-rc.top;r.style.left=rc.left+'px';r.style.top=rc.top+'px';};document.addEventListener('mousemove',function(e){if(!dr)return;r.style.left=Math.max(0,e.clientX-ox)+'px';r.style.top=Math.max(0,e.clientY-oy)+'px';});document.addEventListener('mouseup',function(){dr=false;});}())";
 }
-
-function updateBookmarklet() {
-  const url = document.getElementById('urlInput').value.trim();
-  const code = getBookmarkletCode(url);
-  document.getElementById('bmLink').href = code;
-  document.getElementById('codePreview').textContent = code.replace('javascript:void(', '').slice(0, -1);
+function updateBm(){
+  var url=document.getElementById('urlInput').value.trim();
+  document.getElementById('bmLink').href=getBm(url);
+  document.getElementById('codePreview').textContent=getBm(url);
 }
-
-updateBookmarklet();
+updateBm();
 </script>
 </body>
 </html>
