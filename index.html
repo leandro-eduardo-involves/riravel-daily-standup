@@ -33,7 +33,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--t
 .ghost{background:var(--card);color:var(--sub);border:1px solid var(--border);border-radius:.5rem;padding:.625rem .875rem;font-size:.8rem;font-family:inherit;cursor:pointer;font-weight:600}
 .mute{position:absolute;top:.25rem;right:0;background:none;border:1px solid var(--border);border-radius:.375rem;padding:.25rem .5rem;cursor:pointer;font-size:.875rem;font-family:inherit}
 .tp{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:18px}
-.tp-btn{font-family:inherit;cursor:pointer;font-weight:700;font-size:14px;width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:#A0A0B0;display:flex;align-items:center;justify-content:center}
+.tp-btn{font-family:inherit;cursor:pointer;font-weight:700;font-size:14px;width:22px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:#A0A0B0;display:flex;align-items:center;justify-content:center}
 .tp-val{font-family:var(--mono);font-weight:600;font-size:16px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:#A0A0B0;padding:3px 12px;cursor:pointer;min-width:65px;text-align:center;letter-spacing:1px}
 .tp-edit{font-family:var(--mono);font-weight:600;font-size:16px;width:30px;text-align:center;background:var(--card);border:1px solid var(--blue);border-radius:5px;color:var(--blue);padding:3px 2px;outline:none}
 .tp-colon{font-weight:700;font-size:16px;color:var(--blue);font-family:var(--mono)}
@@ -47,7 +47,7 @@ body{min-height:100vh;background:var(--bg);font-family:var(--font);color:var(--t
 .rlist{display:flex;flex-direction:column;gap:4px;align-items:stretch}
 .ri{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;cursor:grab;transition:transform .15s,opacity .15s;user-select:none}
 .ri.dragging{opacity:.4;transform:scale(.95)}
-.sbtn{font-family:inherit;cursor:pointer;font-weight:600;font-size:13px;padding:3px 8px;border-radius:5px;white-space:nowrap}
+.sbtn{font-family:inherit;cursor:pointer;font-weight:600;font-size:11px;padding:2px 0;border-radius:4px;white-space:nowrap;width:22px;text-align:center}
 .sbtn-r{background:#EF444418;border:1px solid #EF444433;color:#EF4444}
 .sbtn-u{background:#10B98118;border:1px solid #10B98133;color:#10B981}
 .sk-item{display:flex;align-items:center;gap:8px;background:#0E0E16;border:1px solid #1A1A24;border-radius:8px;padding:6px 12px;opacity:.6}
@@ -146,7 +146,7 @@ function renderReady(){
   const a=act(),sl=skList();
   $("p-ready").innerHTML=`${editing?tpEditHTML():tpHTML()}
     <div style="font-size:13px;color:var(--sub);text-align:center;margin-bottom:12px">Drag to reorder · Click ✕ to skip</div>
-    <div class="rlist" id="dragList" style="margin-bottom:10px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:18px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
+    <div class="rlist" id="dragList" style="margin-bottom:10px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
     ${sl.length?`<div class="rlist" style="margin-bottom:16px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;opacity:.5;border-color:#1A1A24;background:#0E0E16">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:'<div style="margin-bottom:16px"></div>'}
     <div class="row"><button class="btn btn-s btn-sm" onclick="doShuf()" ${a.length<2?'disabled style="opacity:.35;cursor:not-allowed"':""}>🎲 Shuffle</button><button class="btn btn-g btn-sm" onclick="go()" ${a.length===0?'disabled style="opacity:.4;cursor:not-allowed"':""}>▶ Start (${a.length})</button><button class="ghost" onclick="reset()">Reset</button></div>`;
   show("ready");
