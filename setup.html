@@ -3,36 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Standup — Setup</title>
+<title>Standup · Setup</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;background:#08080D;font-family:'JetBrains Mono','Fira Code',monospace;color:#E2E2E8;display:flex;align-items:center;justify-content:center;padding:40px 24px}
-.wrap{max-width:480px;width:100%;text-align:center}
+body{min-height:100vh;background:#08080D;font-family:'JetBrains Mono','Fira Code',monospace;color:#E2E2E8;display:flex;align-items:flex-start;justify-content:center;padding:60px 24px 40px}
+.wrap{max-width:420px;width:100%;text-align:center}
 .sub{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#585868;margin-bottom:6px}
 h1{font-size:22px;font-weight:700;margin-bottom:32px;background:linear-gradient(135deg,#E2E2E8,#8B8B9E);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .bm{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#3A7BE8,#5B5BF0);color:#fff;padding:16px 32px;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;cursor:grab;box-shadow:0 0 40px rgba(58,123,232,.3);transition:all .15s;font-family:inherit;margin-bottom:12px}
 .bm:hover{box-shadow:0 0 60px rgba(58,123,232,.5);transform:scale(1.03)}
-.hint{font-size:10px;color:#585868;margin-bottom:40px}
-.how{text-align:left;background:#1A1A28;border:1px solid #2A2A3D;border-radius:10px;padding:20px 24px;font-size:12px;color:#8B8B9E;line-height:2}
+.hint{font-size:10px;color:#585868;margin-bottom:36px}
+.how{text-align:left;background:#1A1A28;border:1px solid #2A2A3D;border-radius:10px;padding:18px 20px;font-size:12px;color:#8B8B9E;line-height:2.2}
+.num{color:#3A7BE8;font-weight:700;margin-right:2px}
 .how b{color:#B0B0C0}
-.num{color:#3A7BE8;font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="sub">RiRavel</div>
   <h1>Daily Standup</h1>
-
-  <a class="bm" href="javascript:void(function(){if(document.getElementById('sf-r')){var e=document.getElementById('sf-r');e.style.display=e.style.display==='none'?'':'none';return;}var r=document.createElement('div');r.id='sf-r';r.style.cssText='position:fixed;top:8px;left:8px;width:340px;height:calc(100vh - 16px);z-index:999999;border-radius:10px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,.7);border:1px solid %232A2A3D;display:flex;flex-direction:column;resize:horizontal;min-width:280px;max-width:500px;';var b=document.createElement('div');b.style.cssText='background:%2314141F;padding:6px 10px;display:flex;align-items:center;cursor:move;user-select:none;border-bottom:1px solid %232A2A3D;flex-shrink:0;';b.innerHTML='<span style=%22color:%238B8B9E;font-size:10px;font-weight:600;flex:1;letter-spacing:2px;font-family:monospace%22>\u23f1 STANDUP</span><button id=sf-mn style=%22background:none;border:none;color:%23585868;font-size:16px;cursor:pointer;padding:0 5px;font-family:monospace%22>\u2212</button><button id=sf-cl style=%22background:none;border:none;color:%23585868;font-size:16px;cursor:pointer;padding:0 5px;font-family:monospace%22>\u00d7</button>';var f=document.createElement('iframe');f.id='sf-f';f.src='https://leandro-eduardo-involves.github.io/riravel-daily-standup/';f.style.cssText='flex:1;border:none;background:%2308080D;width:100%25;';f.setAttribute('allow','autoplay');r.appendChild(b);r.appendChild(f);document.body.appendChild(r);var mn=false;document.getElementById('sf-mn').onclick=function(){mn=!mn;f.style.display=mn?'none':'';r.style.height=mn?'auto':'calc(100vh - 16px)';r.style.resize=mn?'none':'horizontal';this.textContent=mn?'+':'\u2212';};document.getElementById('sf-cl').onclick=function(){r.remove();};var ox,oy,dr=false;b.onmousedown=function(e){if(e.target.tagName==='BUTTON')return;dr=true;var rc=r.getBoundingClientRect();ox=e.clientX-rc.left;oy=e.clientY-rc.top;r.style.left=rc.left+'px';r.style.top=rc.top+'px';};document.addEventListener('mousemove',function(e){if(!dr)return;r.style.left=Math.max(0,e.clientX-ox)+'px';r.style.top=Math.max(0,e.clientY-oy)+'px';});document.addEventListener('mouseup',function(){dr=false;});}())">⏱ Standup</a>
-  <div class="hint">↑ Arraste pro bookmarks bar do browser</div>
-
+  <a class="bm" href="javascript:void(function(){if(document.getElementById('sf-r')){var e=document.getElementById('sf-r');e.style.display=e.style.display==='none'?'':'none';return;}var r=document.createElement('div');r.id='sf-r';r.style.cssText='position:fixed;top:8px;left:8px;width:300px;height:calc(100vh - 60px);z-index:999999;border-radius:10px;overflow:hidden;box-shadow:4px 0 32px rgba(0,0,0,.5);border:1px solid %232A2A3D;display:flex;flex-direction:column;';var b=document.createElement('div');b.style.cssText='background:%2314141F;padding:6px 10px;display:flex;align-items:center;cursor:move;user-select:none;border-bottom:1px solid %232A2A3D;flex-shrink:0;';b.innerHTML='<span style=%22color:%238B8B9E;font-size:10px;font-weight:600;flex:1;letter-spacing:2px;font-family:monospace%22>\u23f1 STANDUP</span><button id=sf-mn style=%22background:none;border:none;color:%23585868;font-size:16px;cursor:pointer;padding:0 5px;font-family:monospace%22>\u2212</button><button id=sf-cl style=%22background:none;border:none;color:%23585868;font-size:16px;cursor:pointer;padding:0 5px;font-family:monospace%22>\u00d7</button>';var f=document.createElement('iframe');f.id='sf-f';f.src='https://leandro-eduardo-involves.github.io/riravel-daily-standup/';f.style.cssText='flex:1;border:none;background:%2308080D;width:100%25;';f.setAttribute('allow','autoplay');r.appendChild(b);r.appendChild(f);document.body.appendChild(r);var mn=false;document.getElementById('sf-mn').onclick=function(){mn=!mn;f.style.display=mn?'none':'';r.style.height=mn?'auto':'calc(100vh - 60px)';this.textContent=mn?'+':'\u2212';};document.getElementById('sf-cl').onclick=function(){r.remove();};var ox,oy,dr=false;b.onmousedown=function(e){if(e.target.tagName==='BUTTON')return;dr=true;var rc=r.getBoundingClientRect();ox=e.clientX-rc.left;oy=e.clientY-rc.top;r.style.left=rc.left+'px';r.style.top=rc.top+'px';};document.addEventListener('mousemove',function(e){if(!dr)return;r.style.left=Math.max(0,e.clientX-ox)+'px';r.style.top=Math.max(0,e.clientY-oy)+'px';});document.addEventListener('mouseup',function(){dr=false;});}())">⏱ Standup</a>
+  <div class="hint">↑ Arraste este botão pra barra de favoritos</div>
   <div class="how">
-    <span class="num">1.</span> Arraste o botão acima pra <b>barra de favoritos</b><br>
-    <span class="num">2.</span> Abra o <b>Jira</b> no board do RiRavel<br>
-    <span class="num">3.</span> Clique no bookmark <b>⏱ Standup</b><br>
-    <span class="num">4.</span> Arraste a <b>barra do topo</b> pra mover<br>
-    <span class="num">5.</span> <b>−</b> minimiza · <b>×</b> fecha · clique de novo pra toggle
+    <span class="num">1.</span> Arraste o botão pra <b>barra de favoritos</b><br>
+    <span class="num">2.</span> Abra o <b>Jira</b><br>
+    <span class="num">3.</span> Clique em <b>⏱ Standup</b> nos favoritos<br>
+    <span class="num">4.</span> Arraste a barra pra <b>mover</b> o painel<br>
+    <span class="num">5.</span> <b>−</b> minimiza · <b>×</b> fecha · clique de novo = toggle
   </div>
 </div>
 </body>

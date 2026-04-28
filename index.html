@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Standup — RiRavel</title>
+<title>Daily Standup · RiRavel</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱</text></svg>">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#08080D;--card:#1A1A28;--border:#2A2A3D;--txt:#E2E2E8;--sub:#585868;--dim:#3A3A4A;--blue:#3A7BE8}
@@ -14,7 +15,7 @@ html{scrollbar-width:thin;scrollbar-color:#2A2A3D transparent}
 ::-webkit-scrollbar-thumb{background:#2A2A3D;border-radius:10px}
 ::-webkit-scrollbar-thumb:hover{background:#3A3A4D}
 body{min-height:100vh;background:var(--bg);font-family:'JetBrains Mono','Fira Code',monospace;color:var(--txt);display:flex;align-items:flex-start;justify-content:center;padding:16px 14px;overflow-x:hidden;overflow-y:auto}
-#app{position:relative;z-index:1;width:100%}
+#app{position:relative;z-index:1;width:100%;max-width:340px;margin:0 auto}
 .phase{display:none}.phase.vis{display:block}
 .hdr{text-align:center;margin-bottom:20px}
 .hdr-sub{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--sub);margin-bottom:4px}
@@ -110,7 +111,7 @@ function onDigit(el,field){el.value=el.value.replace(/\D/g,"").slice(0,2);if(fie
 function editKey(e,field){if(e.key==="Enter")commitEdit();if(e.key==="Tab"&&field==="min"){e.preventDefault();$("tp-sec").focus();$("tp-sec").select();}if(e.key==="Escape"){editing=false;rerender();}}
 function blurEdit(){setTimeout(()=>{const ae=document.activeElement;if(ae&&(ae.id==="tp-min"||ae.id==="tp-sec"))return;if(editing)commitEdit();},100);}
 function commitEdit(){const mEl=$("tp-min"),sEl=$("tp-sec");if(!mEl||!sEl){editing=false;rerender();return;}dur=Math.max(MIN,Math.min(MAX,(parseInt(mEl.value)||0)*60+(parseInt(sEl.value)||0)));time=dur;editing=false;rerender();}
-function rerender(){const ph=document.querySelector('.phase.vis').id;if(ph==='p-idle')renderIdle();else if(ph==='p-ready')renderReady();}
+function rerender(){renderReady();}
 function togSkip(i){skip.has(i)?skip.delete(i):skip.add(i);rerender();}
 
 // IDLE — vertical list
@@ -127,14 +128,20 @@ function renderIdle(){
   show("idle");
 }
 function doShuf(){
-  const sn=new Set(order.filter((_,i)=>skip.has(i)).map(p=>p.n));const activeT=T.filter(p=>!sn.has(p.n));show("shuf");let c=0;
-  sI=setInterval(()=>{const tmp=shuf(activeT);
-    $("p-shuf").innerHTML=`<div style="font-size:11px;color:var(--sub);letter-spacing:4px;text-transform:uppercase;text-align:center;margin-bottom:16px">Shuffling...</div>
-      <div style="display:flex;flex-direction:column;gap:4px;padding:0 8px">${tmp.map((p,i)=>`<div style="display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:7px;padding:6px 10px"><span style="font-size:11px;color:var(--dim);font-weight:700;width:16px">${i+1}</span>${av(p,24)}<span style="font-size:12px">${p.n.split(" ")[0]}</span></div>`).join("")}</div>`;
-    if(++c>=10){clearInterval(sI);order=shuf(T);skip=new Set(order.map((p,i)=>sn.has(p.n)?i:null).filter(i=>i!==null));idx=0;renderReady();}
-  },70);
+  const actives=order.filter((_,i)=>!skip.has(i));
+  const skips=order.filter((_,i)=>skip.has(i));
+  order=[...shuf(actives),...skips];
+  skip=new Set(order.map((_,i)=>i>=actives.length?i:null).filter(i=>i!==null));
+  idx=0;renderReady();
 }
-function keepOrd(){const sn=new Set(order.filter((_,i)=>skip.has(i)).map(p=>p.n));order=[...T];skip=new Set(T.map((p,i)=>sn.has(p.n)?i:null).filter(i=>i!==null));idx=0;renderReady();}
+function keepOrd(){
+  const sn=new Set(order.filter((_,i)=>skip.has(i)).map(p=>p.n));
+  const actives=T.filter(p=>!sn.has(p.n));
+  const skips=T.filter(p=>sn.has(p.n));
+  order=[...actives,...skips];
+  skip=new Set(order.map((_,i)=>i>=actives.length?i:null).filter(i=>i!==null));
+  idx=0;renderReady();
+}
 let dFrom=null;
 function renderReady(){
   const a=act(),sl=skList();
@@ -156,7 +163,7 @@ function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){
   $("p-run").innerHTML=`<div class="obar" id="obar"></div><div class="ccard" id="ccard"></div><div class="td" id="tnum"></div><div class="tu" id="tumsg" style="display:none">Time's up!</div><div class="pb" id="pbw"><div class="pf" id="pf"></div></div>
-    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()">⏸</button><button class="btn btn-sm" style="background:var(--card);color:#F59E0B;border:1px solid #F59E0B33;font-family:inherit;cursor:pointer;font-weight:600" onclick="nxt()">⏭</button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
+    <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" id="bprev" onclick="prev()">←</button><button class="btn btn-s btn-sm" id="bpause" onclick="tpause()">⏸</button><button class="btn btn-p btn-sm" id="bnxt" onclick="nxt()">Next →</button><button class="ghost" onclick="reset()">Reset</button></div>`;
   show("run");updRun();
 }
 function updRun(){
@@ -185,8 +192,10 @@ function renderDone(){
     <div class="row"><button class="btn btn-p" onclick="reset()">New Standup</button></div>`;
   show("done");
 }
-function reset(){clearInterval(tI);clearInterval(sI);order=[...T];skip=defSkip();idx=0;time=dur;paused=false;alerted=false;editing=false;renderIdle();}
-renderIdle();
+function reset(){clearInterval(tI);clearInterval(sI);skip=defSkip();idx=0;time=dur;paused=false;alerted=false;editing=false;
+  const actives=T.filter(p=>!p.sd);const skips=T.filter(p=>p.sd);
+  order=[...shuf(actives),...skips];skip=new Set(order.map((_,i)=>i>=actives.length?i:null).filter(i=>i!==null));renderReady();}
+reset();
 </script>
 </body>
 </html>
