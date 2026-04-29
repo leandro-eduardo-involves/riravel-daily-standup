@@ -77,7 +77,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--txt);padding:0;fon
 .ri.dragging{opacity:.4;transform:scale(.95)}
 .sbtn{font-family:inherit;cursor:pointer;font-weight:600;font-size:11px;padding:2px 0;border-radius:4px;white-space:nowrap;width:22px;text-align:center;transition:opacity .15s}
 .sbtn:hover{opacity:.7}
-.name-link{cursor:pointer;transition:opacity .15s}.name-link:hover{opacity:.7}
 .sbtn-r{background:#EF444418;border:1px solid #EF444433;color:#EF4444}
 .sbtn-u{background:#10B98118;border:1px solid #10B98133;color:var(--check)}
 .sk-item{display:flex;align-items:center;gap:8px;background:#0E0E16;border:1px solid #1A1A24;border-radius:8px;padding:6px 12px;opacity:.6}
@@ -133,7 +132,9 @@ function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAu
 function playTick(){if(muted)return;try{const c=getCtx(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type="sine";o.frequency.value=600;g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.08);o.start(c.currentTime);o.stop(c.currentTime+.08);}catch(e){}}
 function playAlert(){if(muted)return;try{const c=getCtx(),t=c.currentTime;const b=(s,f,d,v)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type="sine";o.frequency.value=f;g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.start(s);o.stop(s+d);};b(t,660,.12,.15);b(t+.18,660,.12,.15);b(t+.36,880,.25,.18);}catch(e){}}
 function toggleMute(){muted=!muted;$("muteBtn").textContent=muted?"🔇":"🔊";$("muteBtn").style.color=muted?"#EF4444":"var(--sub)";}
-function goFilter(qf,name){try{window.parent.postMessage({standupFilter:true,qf:qf,name:name},"*");}catch(e){}}
+function applyFilter(person){try{window.parent.postMessage({standupFilter:true,qf:person.qf,name:person.n},"*");}catch(e){}}
+function clearFilter(person){try{window.parent.postMessage({standupClear:true,qf:person.qf,name:person.n},"*");}catch(e){}}
+function clearAllFilters(){act().forEach(p=>clearFilter(p));}
 function toggleTheme(){document.documentElement.classList.toggle("light");document.body.classList.toggle("light");const isLight=document.body.classList.contains("light");$("themeBtn").textContent=isLight?"☀️":"🌙";try{localStorage.setItem("standup-theme",isLight?"light":"dark");}catch(e){}try{window.parent.postMessage({standupTheme:isLight?"light":"dark"},"*");}catch(e){}}
 function loadTheme(){try{const t=localStorage.getItem("standup-theme");if(t==="light"){document.documentElement.classList.add("light");document.body.classList.add("light");$("themeBtn").textContent="☀️";}try{window.parent.postMessage({standupTheme:t||"dark"},"*");}catch(e){}}catch(e){}}
 loadTheme();
@@ -188,7 +189,7 @@ let dFrom=null;
 function renderReady(){
   const a=act(),sl=skList();
   $("p-ready").innerHTML=`<div class="top-zone">${editing?tpEditHTML():tpHTML()}<div style="font-size:13px;color:var(--sub)">Drag to reorder · Click ✕ to skip</div></div>
-    <div class="rlist" id="dragList" style="margin-bottom:6px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span class="name-link" onclick="goFilter(${p.qf},'${p.n}')" style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
+    <div class="rlist" id="dragList" style="margin-bottom:6px">${a.map((p,aI)=>{const oi=order.indexOf(p);return`<div class="ri" draggable="true" data-oi="${oi}"><span style="font-size:12px;color:var(--dim);width:8px">⠿</span><span class="ri-num" style="font-size:12px;color:var(--dim);font-weight:700;width:12px">${aI+1}</span>${av(p,30)}<span style="font-size:14px;flex:1;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-r" onclick="togSkip(${oi})">✕</button></div>`;}).join("")}</div>
     ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--dim);overflow-x:hidden;text-overflow:ellipsis;white-space:nowrap">${p.n}</span><button class="sbtn sbtn-u" onclick="togSkip(${p.oi})">↩</button></div>`).join("")}</div>`:""}
     <div class="row" style="margin-top:12px"><button class="btn btn-s btn-sm" onclick="doShuf()" ${a.length<2?'disabled style="opacity:.35;cursor:not-allowed"':""}>🎲 Shuffle</button><button class="btn btn-g btn-sm" onclick="go()" ${a.length===0?'disabled style="opacity:.4;cursor:not-allowed"':""}>▶ Start (${a.length})</button></div>`;
   show("ready");
@@ -200,7 +201,7 @@ function renderReady(){
   });
 }
 function updNums(){$("dragList").querySelectorAll('.ri-num').forEach((el,i)=>el.textContent=i+1);}
-function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;renderRun();startClk();}
+function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;clearAllFilters();renderRun();startClk();applyFilter(act()[0]);}
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){
   const sl=skList();
@@ -232,18 +233,18 @@ function updTimer(){
   const bp=$("bpause");if(bp){bp.style.color=time===0?"var(--dis)":"var(--sub)";bp.style.cursor=time===0?"not-allowed":"pointer";}
 }
 function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.textContent='▶';b.classList.add('btn-play');}else{b.textContent='⏸';b.classList.remove('btn-play');}}
-function nxt(){const a=act();if(idx<a.length-1){clearInterval(tI);idx++;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();}else{clearInterval(tI);renderDone();}}
-function prev(){if(idx>0){clearInterval(tI);idx--;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();}}
+function nxt(){const a=act();if(idx<a.length-1){clearFilter(a[idx]);clearInterval(tI);idx++;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();applyFilter(a[idx]);}else{clearFilter(a[idx]);clearInterval(tI);renderDone();}}
+function prev(){if(idx>0){clearFilter(act()[idx]);clearInterval(tI);idx--;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();applyFilter(act()[idx]);}}
 function resetPause(){const b=$("bpause");if(b){b.textContent='⏸';b.classList.remove('btn-play');}}
 function renderDone(){
   const a=act(),sl=skList();
   $("p-done").innerHTML=`<div class="top-zone"><div style="font-size:36px;margin-bottom:4px">🎉</div><div style="font-size:16px;font-weight:700">Stand-up complete!</div><div style="font-size:12px;color:var(--sub)">Nice work, team RiRavel</div></div>
-    <div class="rlist" style="margin-bottom:6px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--check);font-weight:700;width:12px">✓</span>${av(p,30)}<span class="name-link" onclick="goFilter(${p.qf},'${p.n}')" style="font-size:14px;flex:1">${p.n}</span></div>`).join("")}</div>
+    <div class="rlist" style="margin-bottom:6px">${a.map((p,i)=>`<div class="ri" style="cursor:default"><span style="font-size:12px;color:var(--check);font-weight:700;width:12px">✓</span>${av(p,30)}<span style="font-size:14px;flex:1">${p.n}</span></div>`).join("")}</div>
     ${sl.length?`<div class="rlist" style="margin-bottom:6px"><div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin:6px 0 4px;text-align:center">Skipped</div>${sl.map(p=>`<div class="ri" style="cursor:default;opacity:.5;border-color:var(--sk-border);background:var(--sk-bg)">${av(p,30,true)}<span style="font-size:14px;flex:1;color:var(--sub)">${p.n}</span></div>`).join("")}</div>`:""}
     <div class="row" style="margin-top:12px"><button class="btn btn-p" onclick="reset()">New Stand-up</button></div>`;
   show("done");
 }
-function reset(){clearInterval(tI);clearInterval(sI);skip=defSkip();idx=0;time=dur;paused=false;alerted=false;editing=false;
+function reset(){clearAllFilters();clearInterval(tI);clearInterval(sI);skip=defSkip();idx=0;time=dur;paused=false;alerted=false;editing=false;
   const actives=T.filter(p=>!p.sd);const skips=T.filter(p=>p.sd);
   order=[...shuf(actives),...skips];skip=new Set(order.map((_,i)=>i>=actives.length?i:null).filter(i=>i!==null));renderReady();}
 reset();
