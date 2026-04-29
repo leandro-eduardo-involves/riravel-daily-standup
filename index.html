@@ -134,7 +134,7 @@ function playAlert(){if(muted)return;try{const c=getCtx(),t=c.currentTime;const 
 function toggleMute(){muted=!muted;$("muteBtn").textContent=muted?"🔇":"🔊";$("muteBtn").style.color=muted?"#EF4444":"var(--sub)";}
 function applyFilter(person){try{window.parent.postMessage({standupFilter:true,qf:person.qf,name:person.n},"*");}catch(e){}}
 function clearFilter(person){try{window.parent.postMessage({standupClear:true,qf:person.qf,name:person.n},"*");}catch(e){}}
-function clearAllFilters(){act().forEach(p=>clearFilter(p));}
+function clearAllFilters(){T.forEach(p=>clearFilter(p));}
 function toggleTheme(){document.documentElement.classList.toggle("light");document.body.classList.toggle("light");const isLight=document.body.classList.contains("light");$("themeBtn").textContent=isLight?"☀️":"🌙";try{localStorage.setItem("standup-theme",isLight?"light":"dark");}catch(e){}try{window.parent.postMessage({standupTheme:isLight?"light":"dark"},"*");}catch(e){}}
 function loadTheme(){try{const t=localStorage.getItem("standup-theme");if(t==="light"){document.documentElement.classList.add("light");document.body.classList.add("light");$("themeBtn").textContent="☀️";}try{window.parent.postMessage({standupTheme:t||"dark"},"*");}catch(e){}}catch(e){}}
 loadTheme();
@@ -233,7 +233,7 @@ function updTimer(){
   const bp=$("bpause");if(bp){bp.style.color=time===0?"var(--dis)":"var(--sub)";bp.style.cursor=time===0?"not-allowed":"pointer";}
 }
 function tpause(){if(time===0)return;paused=!paused;const b=$("bpause");if(paused){b.textContent='▶';b.classList.add('btn-play');}else{b.textContent='⏸';b.classList.remove('btn-play');}}
-function nxt(){const a=act();if(idx<a.length-1){clearFilter(a[idx]);clearInterval(tI);idx++;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();applyFilter(a[idx]);}else{clearFilter(a[idx]);clearInterval(tI);renderDone();}}
+function nxt(){const a=act();if(idx<a.length-1){clearFilter(a[idx]);clearInterval(tI);idx++;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();applyFilter(a[idx]);}else{clearAllFilters();clearInterval(tI);renderDone();}}
 function prev(){if(idx>0){clearFilter(act()[idx]);clearInterval(tI);idx--;time=dur;paused=false;alerted=false;resetPause();updRun();startClk();applyFilter(act()[idx]);}}
 function resetPause(){const b=$("bpause");if(b){b.textContent='⏸';b.classList.remove('btn-play');}}
 function renderDone(){
