@@ -70,6 +70,11 @@ body{background:var(--bg);font-family:var(--font);color:var(--txt);padding:0;fon
 .mitem.off{background:#0E0E16;border-color:#1A1A24;opacity:.4}
 .mitem .mn{font-size:.85rem;flex:1;color:#B0B0C0}
 .mitem.off .mn{color:var(--dim);text-decoration:line-through}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:320px;text-align:center}
+.modal h3{font-size:15px;font-weight:700;margin-bottom:8px;color:#EF4444}
+.modal p{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:16px}
+.modal code{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:11px}
 .top-zone{text-align:center;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:8px}
 /* Ready list */
 .rlist{display:flex;flex-direction:column;gap:4px;align-items:stretch}
@@ -201,7 +206,21 @@ function renderReady(){
   });
 }
 function updNums(){$("dragList").querySelectorAll('.ri-num').forEach((el,i)=>el.textContent=i+1);}
-function go(){if(!act().length)return;idx=0;time=dur;paused=false;alerted=false;clearAllFilters();renderRun();startClk();applyFilter(act()[0]);}
+function go(){if(!act().length)return;
+  var first=act()[0];
+  try{window.parent.postMessage({standupCheck:true,qf:first.qf,name:first.n},"*");}catch(e){startRun();return;}
+  window._startTimeout=setTimeout(function(){startRun();},300);
+}
+function startRun(){idx=0;time=dur;paused=false;alerted=false;clearAllFilters();renderRun();startClk();applyFilter(act()[0]);}
+function showFilterError(){
+  var el=document.createElement("div");el.className="modal-overlay";el.id="filterModal";
+  el.innerHTML='<div class="modal"><h3>Quick Filters não encontrados</h3><p>Os Quick Filters do board precisam estar visíveis e configurados com os nomes corretos dos membros do time.<br><br>No Jira: <code>Board Settings</code> → <code>Quick Filters</code></p><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
+  document.body.appendChild(el);
+}
+window.addEventListener("message",function(e){
+  if(e.data&&e.data.standupCheckResult===false){clearTimeout(window._startTimeout);showFilterError();}
+  if(e.data&&e.data.standupCheckResult===true){clearTimeout(window._startTimeout);startRun();}
+});
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){
   const sl=skList();
@@ -224,6 +243,7 @@ function updRun(){
   }).join("");
   $("bnxt").textContent=idx===a.length-1?"Finish →":"Next →";
   $("bprev").style.color=idx===0?"var(--dis)":"var(--sub)";$("bprev").style.cursor=idx===0?"not-allowed":"pointer";
+  const activeEl=$("runList").children[idx];if(activeEl)activeEl.scrollIntoView({behavior:"smooth",block:"nearest"});
   updTimer();
 }
 function updTimer(){

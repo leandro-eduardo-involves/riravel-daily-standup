@@ -9,6 +9,8 @@ Timer de daily stand-up feito sob medida pro time RiRavel. Roda como painel flut
 - **Timer configurável** — de 00:30 a 10:00 por pessoa, default 02:00
 - **Drag & drop** — reordene manualmente antes de iniciar
 - **Som** — tick nos últimos 10s + alerta quando o tempo acaba (mutável)
+- **Quick Filters automáticos** — ao iniciar o turno de cada membro, aplica o Quick Filter correspondente no Jira automaticamente
+- **Dark/Light mode** — toggle com preferência salva no localStorage
 - **Fotos do Jira** — avatares do Atlassian direto nos cards
 - **Bookmarklet** — abre como sidebar flutuante sobre o Jira, arrastável e redimensionável
 
@@ -28,15 +30,26 @@ Settings → Pages → Source: **Deploy from a branch** → Branch: **main** →
 
 Acesse: `https://leandro-eduardo-involves.github.io/riravel-daily-standup/setup.html`
 
-Arraste o botão **⏱ Stand-up** pra barra de favoritos do browser.
+Arraste o botão **Stand-up** pra barra de favoritos do browser.
 
 ### 4. Use
 
 1. Abra o **Jira** no board do RiRavel
-2. Clique em **⏱ Stand-up** nos favoritos
+2. Clique em **Stand-up** nos favoritos
 3. O painel aparece no canto esquerdo
-4. Arraste a barra do topo pra mover
-5. **−** minimiza · **×** fecha · clique de novo = toggle
+4. **×** fecha · clique de novo no bookmark pra reabrir
+
+## Quick Filters
+
+Ao clicar em **Start**, o timer aplica automaticamente o Quick Filter do membro atual no board do Jira. Ao avançar com **Next**, desmarca o anterior e marca o próximo. Ao finalizar ou resetar, limpa todos os filtros.
+
+Para funcionar, o board do Jira precisa ter Quick Filters configurados com os nomes dos membros. Cada filtro usa:
+
+```
+assignee = {USER_ID} OR Reviewer = {USER_ID} OR "Reviewer 2" = {USER_ID}
+```
+
+Se os filtros não forem encontrados ao iniciar, o timer exibe um aviso.
 
 ## Estrutura
 
@@ -58,6 +71,7 @@ const T = [
     n: "Nome Completo",     // nome exibido
     i: "NC",                // iniciais (fallback sem foto)
     c: "#3A7BE8",           // cor do avatar
+    qf: 1220,              // ID do Quick Filter no Jira
     img: "https://...",     // URL da foto (Atlassian avatar)
     sd: true                // (opcional) skippado por padrão
   },
@@ -67,18 +81,19 @@ const T = [
 
 ### Editar tempo padrão
 
-No mesmo arquivo, altere `DEFAULT_DUR`:
+No mesmo arquivo, altere as constantes:
 
 ```javascript
-const MIN = 30, MAX = 600, STEP = 30, DEFAULT_DUR = 120; // em segundos
+const MIN = 30, MAX = 600, STEP = 30; // em segundos
+let dur = 120; // default 02:00
 ```
 
-## Quick Filters do Jira
+### Board URL
 
-O projeto inclui Quick Filters configurados no board do RiRavel pra mostrar tasks + reviews por pessoa na daily. Cada filtro usa:
+Atualize a URL do board se necessário:
 
-```
-assignee = {USER_ID} OR Reviewer = {USER_ID} OR "Reviewer 2" = {USER_ID}
+```javascript
+const BOARD_URL = "https://involves.atlassian.net/jira/software/c/projects/RIR/boards/413";
 ```
 
 ## Stack
