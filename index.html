@@ -70,8 +70,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--txt);padding:0;fon
 .mitem.off{background:#0E0E16;border-color:#1A1A24;opacity:.4}
 .mitem .mn{font-size:.85rem;flex:1;color:#B0B0C0}
 .mitem.off .mn{color:var(--dim);text-decoration:line-through}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:320px;text-align:center}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-start;justify-content:center;padding:15vh 24px 0;z-index:9999}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:300px;width:100%;text-align:center}
 .modal h3{font-size:15px;font-weight:700;margin-bottom:8px;color:#EF4444}
 .modal p{font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:16px}
 .modal code{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:11px}
@@ -218,7 +218,7 @@ function startRun(){window._waitingCheck=false;clearTimeout(window._startTimeout
 function showFilterError(){
   var old=document.getElementById("filterModal");if(old)old.remove();
   var el=document.createElement("div");el.className="modal-overlay";el.id="filterModal";
-  el.innerHTML='<div class="modal"><h3>Quick Filters não encontrados</h3><p>Os Quick Filters do board precisam estar visíveis e configurados com os nomes exatos dos membros do time.<br><br>No Jira: <code>⋯</code> → <code>Board Settings</code> → <code>Layout</code> → <code>Quick Filters</code><br><br>Consulte o README para mais detalhes.</p><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
+  el.innerHTML='<div class="modal"><h3>Quick Filters não encontrados</h3><p>Os Quick filters do board precisam estar visíveis e configurados com os nomes exatos dos membros do time.<br><br>No Jira: <code>⋯</code> → <code>Board settings</code> → <code>Layout</code> → <code>Quick filters</code></p><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
   document.body.appendChild(el);
 }
 window.addEventListener("message",function(e){
