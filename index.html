@@ -207,19 +207,23 @@ function renderReady(){
 }
 function updNums(){$("dragList").querySelectorAll('.ri-num').forEach((el,i)=>el.textContent=i+1);}
 function go(){if(!act().length)return;
+  var inIframe=window!==window.parent;
+  if(!inIframe){startRun();return;}
   var first=act()[0];
   try{window.parent.postMessage({standupCheck:true,qf:first.qf,name:first.n},"*");}catch(e){startRun();return;}
-  window._startTimeout=setTimeout(function(){startRun();},300);
+  window._waitingCheck=true;
+  window._startTimeout=setTimeout(function(){if(window._waitingCheck){window._waitingCheck=false;showFilterError();}},800);
 }
-function startRun(){idx=0;time=dur;paused=false;alerted=false;clearAllFilters();renderRun();startClk();applyFilter(act()[0]);}
+function startRun(){window._waitingCheck=false;clearTimeout(window._startTimeout);idx=0;time=dur;paused=false;alerted=false;clearAllFilters();renderRun();startClk();applyFilter(act()[0]);}
 function showFilterError(){
+  var old=document.getElementById("filterModal");if(old)old.remove();
   var el=document.createElement("div");el.className="modal-overlay";el.id="filterModal";
-  el.innerHTML='<div class="modal"><h3>Quick Filters não encontrados</h3><p>Os Quick Filters do board precisam estar visíveis e configurados com os nomes corretos dos membros do time.<br><br>No Jira: <code>Board Settings</code> → <code>Quick Filters</code></p><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
+  el.innerHTML='<div class="modal"><h3>Quick Filters não encontrados</h3><p>Os Quick Filters do board precisam estar visíveis e configurados com os nomes exatos dos membros do time.<br><br>No Jira: <code>⋯</code> → <code>Board Settings</code> → <code>Layout</code> → <code>Quick Filters</code><br><br>Consulte o README para mais detalhes.</p><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
   document.body.appendChild(el);
 }
 window.addEventListener("message",function(e){
-  if(e.data&&e.data.standupCheckResult===false){clearTimeout(window._startTimeout);showFilterError();}
-  if(e.data&&e.data.standupCheckResult===true){clearTimeout(window._startTimeout);startRun();}
+  if(e.data&&e.data.standupCheckResult===false){clearTimeout(window._startTimeout);window._waitingCheck=false;showFilterError();}
+  if(e.data&&e.data.standupCheckResult===true){clearTimeout(window._startTimeout);window._waitingCheck=false;startRun();}
 });
 function startClk(){clearInterval(tI);tI=setInterval(()=>{if(paused)return;time--;if(time>0&&time<=10)playTick();if(time<=0){time=0;clearInterval(tI);if(!alerted){playAlert();alerted=true;}}updTimer();},1000);}
 function renderRun(){

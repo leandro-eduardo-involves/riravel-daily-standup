@@ -39,17 +39,32 @@ Arraste o botão **Stand-up** pra barra de favoritos do browser.
 3. O painel aparece no canto esquerdo
 4. **×** fecha · clique de novo no bookmark pra reabrir
 
-## Quick Filters
+## Quick Filters (obrigatório)
+
+> **O timer depende de Quick Filters configurados no board do Jira.** Sem eles, a integração automática não funciona — o timer exibirá um aviso ao tentar iniciar.
 
 Ao clicar em **Start**, o timer aplica automaticamente o Quick Filter do membro atual no board do Jira. Ao avançar com **Next**, desmarca o anterior e marca o próximo. Ao finalizar ou resetar, limpa todos os filtros.
 
-Para funcionar, o board do Jira precisa ter Quick Filters configurados com os nomes dos membros. Cada filtro usa:
+### Como configurar
+
+1. No board do Jira, clique nos **três pontos (⋯)** ao lado do nome do board
+2. Selecione **Board settings**
+3. No menu lateral, vá em **Layout → Quick filters**
+4. Crie um filtro para **cada membro do time** com os seguintes campos:
+
+| Campo | Valor |
+|-------|-------|
+| **Name** | Nome completo do membro (ex: `Patrick Kochan`) |
+| **JQL query** | `assignee = {Nome} OR Reviewer = {Nome} OR "Reviewer 2" = {Nome}` |
+| **Description** | `Tasks assigned to, reviewed by, or co-reviewed by {Nome}` |
+
+Exemplo de JQL pra `Mauricio Vieira de Souza`:
 
 ```
-assignee = {USER_ID} OR Reviewer = {USER_ID} OR "Reviewer 2" = {USER_ID}
+assignee = Mauricio Vieira de Souza OR Reviewer = Mauricio Vieira de Souza OR "Reviewer 2" = Mauricio Vieira de Souza
 ```
 
-Se os filtros não forem encontrados ao iniciar, o timer exibe um aviso.
+> **Importante:** o **Name** do Quick Filter precisa ser **exatamente igual** ao campo `n` no array `T` do `index.html`. O timer usa esse nome pra localizar o filtro no DOM do Jira.
 
 ## Estrutura
 
