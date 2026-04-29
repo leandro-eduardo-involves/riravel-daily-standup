@@ -218,7 +218,7 @@ function startRun(){window._waitingCheck=false;clearTimeout(window._startTimeout
 function showFilterError(){
   var old=document.getElementById("filterModal");if(old)old.remove();
   var el=document.createElement("div");el.className="modal-overlay";el.id="filterModal";
-  el.innerHTML='<div class="modal"><h3>Quick Filters não encontrados</h3><p>Os Quick filters do board precisam estar visíveis e configurados com os nomes exatos dos membros do time.<br><br>No Jira: <code>⋯</code> → <code>Board settings</code> → <code>Layout</code> → <code>Quick filters</code></p><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
+  el.innerHTML='<div class="modal"><h3>Quick filters não encontrados</h3><p>Os Quick filters do board precisam estar visíveis e configurados com os nomes exatos dos membros do time.<br><br>No Jira: <code>⋯</code> → <code>Board settings</code> → <code>Layout</code> → <code>Quick filters</code></p><a href="https://github.com/leandro-eduardo-involves/riravel-daily-standup" target="_blank" style="display:inline-block;font-size:12px;color:var(--blue);margin-bottom:16px">Mais detalhes →</a><br><button class="btn btn-s btn-sm" onclick="document.getElementById(\'filterModal\').remove()">Entendi</button></div>';
   document.body.appendChild(el);
 }
 window.addEventListener("message",function(e){
